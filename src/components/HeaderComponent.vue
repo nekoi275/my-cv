@@ -8,6 +8,7 @@
         <li>About me</li>
         <li>My CV</li>
         <li>Projects</li>
+        <li>Contact</li>
       </ul>
     </nav>
   </header>
@@ -30,15 +31,14 @@ header {
   top: 0px;
   left: 0px;
   right: 0px;
-}
-ul {
-  list-style-type: none;
+  z-index: 10;
 }
 li {
   display: inline-block;
   margin: 0px 10px;
   cursor: pointer;
   color: var(--light-font-color);
+  font-weight: 900;
 }
 li:hover {
   color: var(--dark-font-color);
