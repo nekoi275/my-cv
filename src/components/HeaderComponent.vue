@@ -39,9 +39,11 @@ li {
   cursor: pointer;
   color: var(--light-font-color);
   font-weight: 900;
+  border-bottom: 1px solid var(--light-font-color);
 }
 li:hover {
   color: var(--dark-font-color);
+  border-bottom: 1px solid var(--dark-font-color);
 }
 .logo {
   max-width: 135px;
