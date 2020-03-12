@@ -2,18 +2,21 @@
   <div id="app">
     <header-component/>
     <about-me-section/>
+    <cv-section/>
   </div>
 </template>
 
 <script>
 import AboutMeSection from './components/AboutMeSection.vue';
-import HeaderComponent from './components/HeaderComponent.vue'
+import HeaderComponent from './components/HeaderComponent.vue';
+import CvSection from './components/CvSection.vue';
 
 export default {
   name: 'App',
   components: {
     HeaderComponent,
-    AboutMeSection
+    AboutMeSection,
+    CvSection
   }
 }
 </script>

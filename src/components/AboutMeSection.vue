@@ -55,14 +55,14 @@ ul {
   width: 22px;
   height: 36px;
   border-radius: 25px;
-  box-shadow: inset 0 0 0 2px #ffffff;
+  box-shadow: inset 0 0 0 2px var(--header-bg-color);
 }
 .mouse::before {
   content: "";
   position: absolute;
   width: 2px;
   height: 8px;
-  background-color: #ffffff;
+  background-color: var(--header-bg-color);
   left: 10px;
   top: 7px;
   animation: 1.6s ease infinite wheel-up-down;
