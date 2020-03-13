@@ -3,6 +3,7 @@
     <header-component/>
     <about-me-section/>
     <cv-section/>
+    <projects-section/>
   </div>
 </template>
 
@@ -10,13 +11,15 @@
 import AboutMeSection from './components/AboutMeSection.vue';
 import HeaderComponent from './components/HeaderComponent.vue';
 import CvSection from './components/CvSection.vue';
+import ProjectsSection from './components/ProjectsSection.vue';
 
 export default {
   name: 'App',
   components: {
     HeaderComponent,
     AboutMeSection,
-    CvSection
+    CvSection,
+    ProjectsSection
   }
 }
 </script>
