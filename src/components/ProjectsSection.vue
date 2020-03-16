@@ -23,6 +23,6 @@ section {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding-top: 100px;
+  padding: 150px 0px 0px 30px;
 }
 </style>

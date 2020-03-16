@@ -6,22 +6,101 @@
 </template>
 
 <script>
+import spriteImage from "../assets/sprite.png";
+
 export default {
   name: "SpaceInvaders",
   data: function() {
     return {
       buttonShown: true,
-      canvasCtx: null
+      isGameOver: false,
+      canvasCtx: null,
+      spriteFrame: 0,
+      alienSprites: [
+        [
+          {
+            x: 0,
+            y: 0,
+            width: 22,
+            height: 16
+          },
+          {
+            x: 0,
+            y: 16,
+            width: 22,
+            height: 16
+          }
+        ],
+        [
+          {
+            x: 22,
+            y: 0,
+            width: 16,
+            height: 16
+          },
+          {
+            x: 22,
+            y: 16,
+            width: 16,
+            height: 16
+          }
+        ],
+        [
+          {
+            x: 38,
+            y: 0,
+            width: 24,
+            height: 16
+          },
+          {
+            x: 38,
+            y: 16,
+            width: 24,
+            height: 16
+          }
+        ]
+      ],
+      tankSprite: {
+        x: 62,
+        y: 0,
+        width: 22,
+        height: 16
+      }
     };
   },
   methods: {
     start: function() {
       this.buttonShown = false;
+      this.drawSprites();
+    },
+    drawSprites: function() {
+      var img = document.createElement("img");
+      img.src = spriteImage;
+      img.addEventListener("load", () => {
+        let tankXpos = (this.canvasCtx.canvas.width - this.tankSprite.width) / 2;
+        let tankYpos = this.canvasCtx.canvas.height - (30 + this.tankSprite.height);
+        this.drawSprite(img, this.tankSprite, tankXpos, tankYpos);
+      });
+    },
+    drawSprite: function(img, sprite, x, y) {
+      this.canvasCtx.drawImage(
+        img,
+        sprite.x,
+        sprite.y,
+        sprite.width,
+        sprite.height,
+        x,
+        y,
+        sprite.width,
+        sprite.height
+      );
     }
   },
   mounted: function() {
     var canvas = document.getElementById("game-screen");
     var ctx = canvas.getContext("2d");
+    ctx.canvas.width = 300;
+    ctx.canvas.height = 400;
     this.canvasCtx = ctx;
   }
 };
@@ -30,13 +109,10 @@ export default {
 <style scoped>
 .game-container {
   position: relative;
-  width: 500px;
-  height: 100vh;
+  width: 300px;
 }
 canvas {
   background-color: #000000;
-  width: 500px;
-  height: 100vh;
 }
 button {
   position: absolute;
