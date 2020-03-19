@@ -71,7 +71,8 @@ export default {
           ],
           rows: 5,
           columns: 10,
-          types: [1, 0, 0, 2, 2]
+          types: [1, 0, 0, 2, 2],
+          bulletColor: "#ffff00"
         },
         tank: {
           sprite: {
@@ -81,7 +82,12 @@ export default {
             height: 16
           },
           xPos: 0,
-          yPos: 0
+          yPos: 0,
+          bulletColor: "#ff0000"
+        },
+        bullet: {
+          width: 2,
+          height: 6
         },
         screenPadding: 30
       },
@@ -90,7 +96,8 @@ export default {
         left: false,
         fire: false
       },
-      aliens: []
+      aliens: [],
+      bullets: []
     };
   },
   methods: {
@@ -114,6 +121,11 @@ export default {
       for (let i = 0; i < this.aliens.length; i++) {
         let alien = this.aliens[i];
         this.drawSprite(alien.sprite[this.spriteFrame], alien.x, alien.y);
+      }
+      for (let i = 0; i < this.bullets.length; i++) {
+        let bullet = this.bullets[i];
+        this.canvasCtx.fillStyle = bullet.color;
+        this.canvasCtx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
       }
     },
     init: function() {
@@ -161,6 +173,7 @@ export default {
       document.addEventListener("keyup", () => {
         this.control.left = false;
         this.control.right = false;
+        this.control.fire = event.keyCode == 32;
       });
     },
     drawSprite: function(sprite, x, y) {
@@ -187,6 +200,10 @@ export default {
       window.requestAnimationFrame(loop);
     },
     update: function() {
+      this.updateTank();
+      this.updateBullets();
+    },
+    updateTank: function() {
       if (
         this.control.left &&
         this.config.tank.xPos > this.config.screenPadding
@@ -196,9 +213,36 @@ export default {
       if (
         this.control.right &&
         this.config.tank.xPos <
-          this.canvasCtx.canvas.width - this.config.screenPadding - this.config.tank.sprite.width
+          this.canvasCtx.canvas.width -
+            this.config.screenPadding -
+            this.config.tank.sprite.width
       ) {
         this.config.tank.xPos += 4;
+      }
+      if (this.control.fire) {
+        this.control.fire = false;
+        this.bullets.push({
+          x: this.config.tank.xPos + this.config.tank.sprite.width / 2,
+          y: this.config.tank.yPos,
+          speed: -8,
+          w: this.config.bullet.width,
+          h: this.config.bullet.height,
+          color: this.config.tank.bulletColor
+        });
+      }
+    },
+    updateBullets: function() {
+      for (let i = 0; i < this.bullets.length; i++) {
+        let bullet = this.bullets[i];
+        bullet.y += bullet.speed;
+        if (
+          bullet.y + bullet.height < 0 ||
+          bullet.y > this.canvasCtx.canvas.height
+        ) {
+          this.bullets.splice(i, 1);
+          i--;
+          continue;
+        }
       }
     }
   },
