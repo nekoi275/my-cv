@@ -72,7 +72,9 @@ export default {
           rows: 5,
           columns: 10,
           types: [1, 0, 0, 2, 2],
-          bulletColor: "#ffff00"
+          bulletColor: "#ffff00",
+          shootProbability: 0.03,
+          bulletSpeed: 4
         },
         tank: {
           sprite: {
@@ -83,7 +85,9 @@ export default {
           },
           xPos: 0,
           yPos: 0,
-          bulletColor: "#ff0000"
+          bulletColor: "#ff0000",
+          bulletSpeed: -8,
+          speed: 4
         },
         bullet: {
           width: 2,
@@ -202,13 +206,14 @@ export default {
     update: function() {
       this.updateTank();
       this.updateBullets();
+      this.updateAliens();
     },
     updateTank: function() {
       if (
         this.control.left &&
         this.config.tank.xPos > this.config.screenPadding
       ) {
-        this.config.tank.xPos -= 4;
+        this.config.tank.xPos -= this.config.tank.speed;
       }
       if (
         this.control.right &&
@@ -217,14 +222,14 @@ export default {
             this.config.screenPadding -
             this.config.tank.sprite.width
       ) {
-        this.config.tank.xPos += 4;
+        this.config.tank.xPos += this.config.tank.speed;
       }
       if (this.control.fire) {
         this.control.fire = false;
         this.bullets.push({
           x: this.config.tank.xPos + this.config.tank.sprite.width / 2,
           y: this.config.tank.yPos,
-          speed: -8,
+          speed: this.config.tank.bulletSpeed,
           w: this.config.bullet.width,
           h: this.config.bullet.height,
           color: this.config.tank.bulletColor
@@ -232,7 +237,7 @@ export default {
       }
     },
     updateBullets: function() {
-      let alienShootProbability = Math.random() < 0.03;
+      let isShooting = Math.random() < this.config.aliens.shootProbability;
 
       for (let i = 0; i < this.bullets.length; i++) {
         let bullet = this.bullets[i];
@@ -247,19 +252,22 @@ export default {
         }
       }
 
-      if (alienShootProbability && this.aliens.length > 0) {
+      if (isShooting && this.aliens.length > 0) {
         let randomAlien = this.aliens[
           Math.round(Math.random() * (this.aliens.length - 1))
         ];
         this.bullets.push({
           x: randomAlien.x + randomAlien.w / 2,
           y: randomAlien.y + randomAlien.h,
-          speed: 4,
+          speed: this.config.aliens.bulletSpeed,
           w: this.config.bullet.width,
           h: this.config.bullet.height,
           color: this.config.aliens.bulletColor
         });
       }
+    },
+    updateAliens: function() {
+
     }
   },
   mounted: function() {
