@@ -13,6 +13,7 @@ export default {
   data: function() {
     return {
       buttonShown: true,
+      spriteImage: null,
       isGameOver: false,
       canvasCtx: null,
       spriteFrame: 0,
@@ -79,8 +80,15 @@ export default {
             width: 22,
             height: 16
           },
-          xOffset: 0
-        }
+          xPos: 0,
+          yPos: 0
+        },
+        screenPadding: 30
+      },
+      control: {
+        right: false,
+        left: false,
+        fire: false
       },
       aliens: []
     };
@@ -89,25 +97,35 @@ export default {
     start: function() {
       this.buttonShown = false;
       this.init();
-      this.render();
     },
     render: function() {
-      var img = document.createElement("img");
-      img.src = spriteImage;
-      img.addEventListener("load", () => {
-        let tankXPos =
-          (this.canvasCtx.canvas.width - this.config.tank.sprite.width) / 2;
-        let tankYPos =
-          this.canvasCtx.canvas.height - (30 + this.config.tank.sprite.height);
-        this.drawSprite(img, this.config.tank.sprite, tankXPos, tankYPos);
-        for (let i = 0; i < this.aliens.length; i++) {
-          let alien = this.aliens[i];
-          this.drawSprite(img, alien.sprite[this.spriteFrame], alien.x, alien.y);
-        }
-      });
+      this.canvasCtx.clearRect(
+        0,
+        0,
+        this.canvasCtx.canvas.width,
+        this.canvasCtx.canvas.height
+      );
+
+      this.drawSprite(
+        this.config.tank.sprite,
+        this.config.tank.xPos,
+        this.config.tank.yPos
+      );
+      for (let i = 0; i < this.aliens.length; i++) {
+        let alien = this.aliens[i];
+        this.drawSprite(alien.sprite[this.spriteFrame], alien.x, alien.y);
+      }
     },
     init: function() {
-      const padding = 30;
+      this.initState();
+      this.initControl();
+      this.initSpriteImage(this.run);
+    },
+    initState: function() {
+      this.config.tank.xPos =
+        (this.canvasCtx.canvas.width - this.config.tank.sprite.width) / 2;
+      this.config.tank.yPos =
+        this.canvasCtx.canvas.height - (30 + this.config.tank.sprite.height);
 
       for (let rowIndex = 0; rowIndex < this.config.aliens.rows; rowIndex++) {
         for (
@@ -119,17 +137,35 @@ export default {
           let sprite = this.config.aliens.sprites[typeNumber];
           this.aliens.push({
             sprite: sprite,
-            x: padding + colIndex * padding + sprite[0].margin,
-            y: padding + rowIndex * padding,
+            x:
+              this.config.screenPadding +
+              colIndex * this.config.screenPadding +
+              sprite[0].margin,
+            y: this.config.screenPadding + rowIndex * this.config.screenPadding,
             w: sprite[0].width,
             h: sprite[0].height
           });
         }
       }
     },
-    drawSprite: function(img, sprite, x, y) {
+    initSpriteImage: function(afterInit) {
+      this.spriteImage = document.createElement("img");
+      this.spriteImage.src = spriteImage;
+      this.spriteImage.addEventListener("load", afterInit);
+    },
+    initControl: function() {
+      document.addEventListener("keydown", event => {
+        this.control.left = event.keyCode == 37;
+        this.control.right = event.keyCode == 39;
+      });
+      document.addEventListener("keyup", () => {
+        this.control.left = false;
+        this.control.right = false;
+      });
+    },
+    drawSprite: function(sprite, x, y) {
       this.canvasCtx.drawImage(
-        img,
+        this.spriteImage,
         sprite.x,
         sprite.y,
         sprite.width,
@@ -139,6 +175,31 @@ export default {
         sprite.width,
         sprite.height
       );
+    },
+    run: function() {
+      let loop = () => {
+        this.update();
+        this.render();
+        if (!this.isGameOver) {
+          window.requestAnimationFrame(loop);
+        }
+      };
+      window.requestAnimationFrame(loop);
+    },
+    update: function() {
+      if (
+        this.control.left &&
+        this.config.tank.xPos > this.config.screenPadding
+      ) {
+        this.config.tank.xPos -= 4;
+      }
+      if (
+        this.control.right &&
+        this.config.tank.xPos <
+          this.canvasCtx.canvas.width - this.config.screenPadding - this.config.tank.sprite.width
+      ) {
+        this.config.tank.xPos += 4;
+      }
     }
   },
   mounted: function() {
