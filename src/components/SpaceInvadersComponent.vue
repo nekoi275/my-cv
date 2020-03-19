@@ -232,6 +232,8 @@ export default {
       }
     },
     updateBullets: function() {
+      let alienShootProbability = Math.random() < 0.03;
+
       for (let i = 0; i < this.bullets.length; i++) {
         let bullet = this.bullets[i];
         bullet.y += bullet.speed;
@@ -243,6 +245,20 @@ export default {
           i--;
           continue;
         }
+      }
+
+      if (alienShootProbability && this.aliens.length > 0) {
+        let randomAlien = this.aliens[
+          Math.round(Math.random() * (this.aliens.length - 1))
+        ];
+        this.bullets.push({
+          x: randomAlien.x + randomAlien.w / 2,
+          y: randomAlien.y + randomAlien.h,
+          speed: 4,
+          w: this.config.bullet.width,
+          h: this.config.bullet.height,
+          color: this.config.aliens.bulletColor
+        });
       }
     }
   },
