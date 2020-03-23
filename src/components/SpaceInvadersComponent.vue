@@ -1,7 +1,8 @@
 <template>
   <div class="game-container">
     <canvas id="game-screen"></canvas>
-    <button v-show="buttonShown" @click="start()">Play</button>
+    <button v-show="buttonShown" @click="start()">Play<hr>move left: &larr;<br>move right: &rarr;<br>fire: space</button>
+    <button v-show="isGameOver" @click="start()">Game over<hr>play again</button>
   </div>
 </template>
 
@@ -12,9 +13,9 @@ export default {
   name: "SpaceInvaders",
   data: function () {
     return {
-      buttonShown: true,
+      buttonShown: false,
       spriteImage: null,
-      isGameOver: false,
+      isGameOver: true,
       canvasCtx: null,
       config: {
         aliens: {
@@ -103,16 +104,18 @@ export default {
           spriteFrame: 0,
           direction: 1,
           xSpeed: 10,
-          ySpeed: 0
+          ySpeed: 10,
+          offset: 0
         },
         bullets: [],
         frame: 0,
-        level: 1
+        level: 0
       }
     };
   },
   methods: {
     start: function () {
+      this.isGameOver = false;
       this.buttonShown = false;
       this.init();
     },
@@ -248,6 +251,7 @@ export default {
       for (let i = 0; i < this.state.bullets.length; i++) {
         let bullet = this.state.bullets[i];
         bullet.y += bullet.speed;
+
         if (
           bullet.y + bullet.height < 0 ||
           bullet.y > this.canvasCtx.canvas.height
@@ -278,18 +282,26 @@ export default {
       let xMin = Math.min(...this.state.aliens.shown.map(alien => alien.x));
       let alienMaxWidth = Math.max(...this.state.aliens.shown.map(alien => alien.w));
       let rightBoundary = this.canvasCtx.canvas.width - this.config.screenPadding - alienMaxWidth;
-      if ((xMax > rightBoundary) || (xMin < this.config.screenPadding)) {
-        this.state.aliens.direction *= -1;
-      }
       let framesToSkip = this.config.aliens.framesToSkip[this.state.level];
       if (this.state.frame % framesToSkip == 0) {
+        let moveDown;
+        if ((xMax > rightBoundary) || (xMin < this.config.screenPadding)) {
+          this.state.aliens.direction *= -1;
+          moveDown = true;
+        }
         this.state.aliens.spriteFrame = this.state.frame % 2;
         for (let i = 0; i < this.state.aliens.shown.length; i++) {
           let alien = this.state.aliens.shown[i];
-          alien.x += this.state.aliens.xSpeed * this.state.aliens.direction;
-          alien.y += this.state.aliens.ySpeed;
+          if (moveDown) {
+            alien.y += this.state.aliens.ySpeed;
+          } 
+            alien.x += this.state.aliens.xSpeed * this.state.aliens.direction;
         }
+        moveDown = false;
       }
+    },
+    collide: function (objectA, objectB) {
+      return objectA.x < objectB.x + objectB.w && objectB.x < objectA.x + objectA.w && objectA.y < objectB.y + objectB.h && objectB.y < objectA.y + objectA.h;
     }
   },
   mounted: function () {
@@ -324,7 +336,8 @@ button {
   border-radius: 20px;
   cursor: pointer;
   font-size: 20px;
-  letter-spacing: 4px;
+  letter-spacing: 2px;
+  text-align: left;
 }
 
 button:hover {
