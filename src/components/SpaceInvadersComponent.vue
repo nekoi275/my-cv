@@ -10,18 +10,16 @@ import spriteImage from "../assets/sprite.png";
 
 export default {
   name: "SpaceInvaders",
-  data: function() {
+  data: function () {
     return {
       buttonShown: true,
       spriteImage: null,
       isGameOver: false,
       canvasCtx: null,
-      spriteFrame: 0,
       config: {
         aliens: {
           sprites: [
-            [
-              {
+            [{
                 x: 0,
                 y: 0,
                 width: 22,
@@ -36,8 +34,7 @@ export default {
                 margin: 0
               }
             ],
-            [
-              {
+            [{
                 x: 22,
                 y: 0,
                 width: 16,
@@ -52,8 +49,7 @@ export default {
                 margin: 4
               }
             ],
-            [
-              {
+            [{
                 x: 38,
                 y: 0,
                 width: 24,
@@ -71,6 +67,7 @@ export default {
           ],
           rows: 5,
           columns: 10,
+          framesToSkip: [50, 25, 10, 5],
           types: [1, 0, 0, 2, 2],
           bulletColor: "#ffff00",
           shootProbability: 0.03,
@@ -100,16 +97,26 @@ export default {
         left: false,
         fire: false
       },
-      aliens: [],
-      bullets: []
+      state: {
+        aliens: {
+          shown: [],
+          spriteFrame: 0,
+          direction: 1,
+          xSpeed: 10,
+          ySpeed: 0
+        },
+        bullets: [],
+        frame: 0,
+        level: 1
+      }
     };
   },
   methods: {
-    start: function() {
+    start: function () {
       this.buttonShown = false;
       this.init();
     },
-    render: function() {
+    render: function () {
       this.canvasCtx.clearRect(
         0,
         0,
@@ -122,22 +129,26 @@ export default {
         this.config.tank.xPos,
         this.config.tank.yPos
       );
-      for (let i = 0; i < this.aliens.length; i++) {
-        let alien = this.aliens[i];
-        this.drawSprite(alien.sprite[this.spriteFrame], alien.x, alien.y);
+      for (let i = 0; i < this.state.aliens.shown.length; i++) {
+        let alien = this.state.aliens.shown[i];
+        this.drawSprite(
+          alien.sprite[this.state.aliens.spriteFrame],
+          alien.x,
+          alien.y
+        );
       }
-      for (let i = 0; i < this.bullets.length; i++) {
-        let bullet = this.bullets[i];
+      for (let i = 0; i < this.state.bullets.length; i++) {
+        let bullet = this.state.bullets[i];
         this.canvasCtx.fillStyle = bullet.color;
         this.canvasCtx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
       }
     },
-    init: function() {
+    init: function () {
       this.initState();
       this.initControl();
       this.initSpriteImage(this.run);
     },
-    initState: function() {
+    initState: function () {
       this.config.tank.xPos =
         (this.canvasCtx.canvas.width - this.config.tank.sprite.width) / 2;
       this.config.tank.yPos =
@@ -145,16 +156,13 @@ export default {
 
       for (let rowIndex = 0; rowIndex < this.config.aliens.rows; rowIndex++) {
         for (
-          let colIndex = 0;
-          colIndex < this.config.aliens.columns;
-          colIndex++
+          let colIndex = 0; colIndex < this.config.aliens.columns; colIndex++
         ) {
           let typeNumber = this.config.aliens.types[rowIndex];
           let sprite = this.config.aliens.sprites[typeNumber];
-          this.aliens.push({
+          this.state.aliens.shown.push({
             sprite: sprite,
-            x:
-              this.config.screenPadding +
+            x: this.config.screenPadding +
               colIndex * this.config.screenPadding +
               sprite[0].margin,
             y: this.config.screenPadding + rowIndex * this.config.screenPadding,
@@ -164,12 +172,12 @@ export default {
         }
       }
     },
-    initSpriteImage: function(afterInit) {
+    initSpriteImage: function (afterInit) {
       this.spriteImage = document.createElement("img");
       this.spriteImage.src = spriteImage;
       this.spriteImage.addEventListener("load", afterInit);
     },
-    initControl: function() {
+    initControl: function () {
       document.addEventListener("keydown", event => {
         this.control.left = event.keyCode == 37;
         this.control.right = event.keyCode == 39;
@@ -180,7 +188,7 @@ export default {
         this.control.fire = event.keyCode == 32;
       });
     },
-    drawSprite: function(sprite, x, y) {
+    drawSprite: function (sprite, x, y) {
       this.canvasCtx.drawImage(
         this.spriteImage,
         sprite.x,
@@ -193,7 +201,7 @@ export default {
         sprite.height
       );
     },
-    run: function() {
+    run: function () {
       let loop = () => {
         this.update();
         this.render();
@@ -203,30 +211,28 @@ export default {
       };
       window.requestAnimationFrame(loop);
     },
-    update: function() {
+    update: function () {
+      this.updateAliens();
       this.updateTank();
       this.updateBullets();
-      this.updateAliens();
     },
-    updateTank: function() {
+    updateTank: function () {
       if (
         this.control.left &&
         this.config.tank.xPos > this.config.screenPadding
       ) {
         this.config.tank.xPos -= this.config.tank.speed;
       }
-      if (
-        this.control.right &&
-        this.config.tank.xPos <
-          this.canvasCtx.canvas.width -
-            this.config.screenPadding -
-            this.config.tank.sprite.width
-      ) {
+      let rightBoundary =
+        this.canvasCtx.canvas.width -
+        this.config.screenPadding -
+        this.config.tank.sprite.width;
+      if (this.control.right && this.config.tank.xPos < rightBoundary) {
         this.config.tank.xPos += this.config.tank.speed;
       }
       if (this.control.fire) {
         this.control.fire = false;
-        this.bullets.push({
+        this.state.bullets.push({
           x: this.config.tank.xPos + this.config.tank.sprite.width / 2,
           y: this.config.tank.yPos,
           speed: this.config.tank.bulletSpeed,
@@ -236,27 +242,27 @@ export default {
         });
       }
     },
-    updateBullets: function() {
+    updateBullets: function () {
       let isShooting = Math.random() < this.config.aliens.shootProbability;
 
-      for (let i = 0; i < this.bullets.length; i++) {
-        let bullet = this.bullets[i];
+      for (let i = 0; i < this.state.bullets.length; i++) {
+        let bullet = this.state.bullets[i];
         bullet.y += bullet.speed;
         if (
           bullet.y + bullet.height < 0 ||
           bullet.y > this.canvasCtx.canvas.height
         ) {
-          this.bullets.splice(i, 1);
+          this.state.bullets.splice(i, 1);
           i--;
           continue;
         }
       }
 
-      if (isShooting && this.aliens.length > 0) {
-        let randomAlien = this.aliens[
-          Math.round(Math.random() * (this.aliens.length - 1))
+      if (isShooting && this.state.aliens.shown.length > 0) {
+        let randomAlien = this.state.aliens.shown[
+          Math.round(Math.random() * (this.state.aliens.shown.length - 1))
         ];
-        this.bullets.push({
+        this.state.bullets.push({
           x: randomAlien.x + randomAlien.w / 2,
           y: randomAlien.y + randomAlien.h,
           speed: this.config.aliens.bulletSpeed,
@@ -266,11 +272,27 @@ export default {
         });
       }
     },
-    updateAliens: function() {
-
+    updateAliens: function () {
+      this.state.frame++;
+      let xMax = Math.max(...this.state.aliens.shown.map(alien => alien.x));
+      let xMin = Math.min(...this.state.aliens.shown.map(alien => alien.x));
+      let alienMaxWidth = Math.max(...this.state.aliens.shown.map(alien => alien.w));
+      let rightBoundary = this.canvasCtx.canvas.width - this.config.screenPadding - alienMaxWidth;
+      if ((xMax > rightBoundary) || (xMin < this.config.screenPadding)) {
+        this.state.aliens.direction *= -1;
+      }
+      let framesToSkip = this.config.aliens.framesToSkip[this.state.level];
+      if (this.state.frame % framesToSkip == 0) {
+        this.state.aliens.spriteFrame = this.state.frame % 2;
+        for (let i = 0; i < this.state.aliens.shown.length; i++) {
+          let alien = this.state.aliens.shown[i];
+          alien.x += this.state.aliens.xSpeed * this.state.aliens.direction;
+          alien.y += this.state.aliens.ySpeed;
+        }
+      }
     }
   },
-  mounted: function() {
+  mounted: function () {
     var canvas = document.getElementById("game-screen");
     var ctx = canvas.getContext("2d");
     ctx.canvas.width = 600;
@@ -285,9 +307,11 @@ export default {
   position: relative;
   width: 600px;
 }
+
 canvas {
   background-color: #000000;
 }
+
 button {
   position: absolute;
   left: 50%;
@@ -302,6 +326,7 @@ button {
   font-size: 20px;
   letter-spacing: 4px;
 }
+
 button:hover {
   color: var(--light-font-color);
   background-color: var(--dark-font-color);
