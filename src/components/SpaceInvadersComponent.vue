@@ -1,8 +1,20 @@
 <template>
   <div class="game-container">
     <canvas id="game-screen"></canvas>
-    <button v-show="buttonShown" @click="start()">Play<hr>move left: &larr;<br>move right: &rarr;<br>fire: space</button>
-    <button v-show="isGameOver" @click="start()">Game over<hr>play again</button>
+    <button v-show="isButtonShown" @click="start()">
+      Play
+      <hr />move left: &larr;
+      <br />move right: &rarr;
+      <br />fire: space
+    </button>
+    <button v-show="isGameOver" @click="start()">
+      Game over
+      <hr />play again
+    </button>
+    <button v-show="isWon" @click="start()">
+      You win!
+      <hr />play again
+    </button>
   </div>
 </template>
 
@@ -11,16 +23,18 @@ import spriteImage from "../assets/sprite.png";
 
 export default {
   name: "SpaceInvaders",
-  data: function () {
+  data: function() {
     return {
-      buttonShown: false,
+      isButtonShown: true,
+      isGameOver: false,
+      isWon: false,
       spriteImage: null,
-      isGameOver: true,
       canvasCtx: null,
       config: {
         aliens: {
           sprites: [
-            [{
+            [
+              {
                 x: 0,
                 y: 0,
                 width: 22,
@@ -35,7 +49,8 @@ export default {
                 margin: 0
               }
             ],
-            [{
+            [
+              {
                 x: 22,
                 y: 0,
                 width: 16,
@@ -50,7 +65,8 @@ export default {
                 margin: 4
               }
             ],
-            [{
+            [
+              {
                 x: 38,
                 y: 0,
                 width: 24,
@@ -68,7 +84,7 @@ export default {
           ],
           rows: 5,
           columns: 10,
-          framesToSkip: [50, 25, 10, 5],
+          framesToSkip: [49, 25, 9, 5],
           types: [1, 0, 0, 2, 2],
           bulletColor: "#ffff00",
           shootProbability: 0.03,
@@ -81,8 +97,6 @@ export default {
             width: 22,
             height: 16
           },
-          xPos: 0,
-          yPos: 0,
           bulletColor: "#ff0000",
           bulletSpeed: -8,
           speed: 4
@@ -98,89 +112,102 @@ export default {
         left: false,
         fire: false
       },
-      state: {
-        aliens: {
-          shown: [],
-          spriteFrame: 0,
-          direction: 1,
-          xSpeed: 10,
-          ySpeed: 10,
-          offset: 0
-        },
-        bullets: [],
-        frame: 0,
-        level: 0
-      }
+      state: {}
     };
   },
   methods: {
-    start: function () {
+    start: function() {
       this.isGameOver = false;
-      this.buttonShown = false;
+      this.isWon = false;
+      this.isButtonShown = false;
       this.init();
     },
-    render: function () {
+    render: function() {
       this.canvasCtx.clearRect(
         0,
         0,
         this.canvasCtx.canvas.width,
         this.canvasCtx.canvas.height
       );
-
       this.drawSprite(
         this.config.tank.sprite,
-        this.config.tank.xPos,
-        this.config.tank.yPos
+        this.state.tank.x,
+        this.state.tank.y
       );
-      for (let i = 0; i < this.state.aliens.shown.length; i++) {
-        let alien = this.state.aliens.shown[i];
+      this.state.aliens.shown.forEach(alien => 
         this.drawSprite(
           alien.sprite[this.state.aliens.spriteFrame],
           alien.x,
           alien.y
-        );
-      }
-      for (let i = 0; i < this.state.bullets.length; i++) {
-        let bullet = this.state.bullets[i];
+        )
+      );
+      this.state.bullets.forEach(bullet => {
         this.canvasCtx.fillStyle = bullet.color;
-        this.canvasCtx.fillRect(bullet.x, bullet.y, bullet.w, bullet.h);
-      }
+        this.canvasCtx.fillRect(
+          bullet.x,
+          bullet.y,
+          bullet.width,
+          bullet.height
+        )
+      });
     },
-    init: function () {
+    init: function() {
       this.initState();
       this.initControl();
       this.initSpriteImage(this.run);
     },
-    initState: function () {
-      this.config.tank.xPos =
+    initState: function() {
+      this.state = {
+        aliens: {
+          shown: [],
+          spriteFrame: 0,
+          direction: 1,
+          xSpeed: 10,
+          ySpeed: 20,
+          offset: 0
+        },
+        tank: {
+          x: 0,
+          y: 0,
+          width: 22,
+          height: 16
+        },
+        bullets: [],
+        frame: 0,
+        level: 0
+      };
+      this.state.tank.x =
         (this.canvasCtx.canvas.width - this.config.tank.sprite.width) / 2;
-      this.config.tank.yPos =
+      this.state.tank.y =
         this.canvasCtx.canvas.height - (30 + this.config.tank.sprite.height);
 
       for (let rowIndex = 0; rowIndex < this.config.aliens.rows; rowIndex++) {
         for (
-          let colIndex = 0; colIndex < this.config.aliens.columns; colIndex++
+          let colIndex = 0;
+          colIndex < this.config.aliens.columns;
+          colIndex++
         ) {
           let typeNumber = this.config.aliens.types[rowIndex];
           let sprite = this.config.aliens.sprites[typeNumber];
           this.state.aliens.shown.push({
             sprite: sprite,
-            x: this.config.screenPadding +
+            x:
+              this.config.screenPadding +
               colIndex * this.config.screenPadding +
               sprite[0].margin,
             y: this.config.screenPadding + rowIndex * this.config.screenPadding,
-            w: sprite[0].width,
-            h: sprite[0].height
+            width: sprite[0].width,
+            height: sprite[0].height
           });
         }
       }
     },
-    initSpriteImage: function (afterInit) {
+    initSpriteImage: function(afterInit) {
       this.spriteImage = document.createElement("img");
       this.spriteImage.src = spriteImage;
       this.spriteImage.addEventListener("load", afterInit);
     },
-    initControl: function () {
+    initControl: function() {
       document.addEventListener("keydown", event => {
         this.control.left = event.keyCode == 37;
         this.control.right = event.keyCode == 39;
@@ -191,7 +218,7 @@ export default {
         this.control.fire = event.keyCode == 32;
       });
     },
-    drawSprite: function (sprite, x, y) {
+    drawSprite: function(sprite, x, y) {
       this.canvasCtx.drawImage(
         this.spriteImage,
         sprite.x,
@@ -204,7 +231,7 @@ export default {
         sprite.height
       );
     },
-    run: function () {
+    run: function() {
       let loop = () => {
         this.update();
         this.render();
@@ -214,38 +241,40 @@ export default {
       };
       window.requestAnimationFrame(loop);
     },
-    update: function () {
-      this.updateAliens();
+    update: function() {
+      this.updateLevel();
+      this.updateAliensAmount();
+      this.updateAliensPosition();
       this.updateTank();
       this.updateBullets();
     },
-    updateTank: function () {
+    updateTank: function() {
       if (
         this.control.left &&
-        this.config.tank.xPos > this.config.screenPadding
+        this.state.tank.x > this.config.screenPadding
       ) {
-        this.config.tank.xPos -= this.config.tank.speed;
+        this.state.tank.x -= this.config.tank.speed;
       }
       let rightBoundary =
         this.canvasCtx.canvas.width -
         this.config.screenPadding -
         this.config.tank.sprite.width;
-      if (this.control.right && this.config.tank.xPos < rightBoundary) {
-        this.config.tank.xPos += this.config.tank.speed;
+      if (this.control.right && this.state.tank.x < rightBoundary) {
+        this.state.tank.x += this.config.tank.speed;
       }
       if (this.control.fire) {
         this.control.fire = false;
         this.state.bullets.push({
-          x: this.config.tank.xPos + this.config.tank.sprite.width / 2,
-          y: this.config.tank.yPos,
+          x: this.state.tank.x + this.config.tank.sprite.width / 2,
+          y: this.state.tank.y,
           speed: this.config.tank.bulletSpeed,
-          w: this.config.bullet.width,
-          h: this.config.bullet.height,
+          width: this.config.bullet.width,
+          height: this.config.bullet.height,
           color: this.config.tank.bulletColor
         });
       }
     },
-    updateBullets: function () {
+    updateBullets: function() {
       let isShooting = Math.random() < this.config.aliens.shootProbability;
 
       for (let i = 0; i < this.state.bullets.length; i++) {
@@ -260,32 +289,71 @@ export default {
           i--;
           continue;
         }
+
+        if (this.isCollision(bullet, this.state.tank)) {
+          this.isGameOver = true;
+        }
       }
 
-      if (isShooting && this.state.aliens.shown.length > 0) {
+      if (isShooting) {
         let randomAlien = this.state.aliens.shown[
           Math.round(Math.random() * (this.state.aliens.shown.length - 1))
         ];
         this.state.bullets.push({
-          x: randomAlien.x + randomAlien.w / 2,
-          y: randomAlien.y + randomAlien.h,
+          x: randomAlien.x + randomAlien.width / 2,
+          y: randomAlien.y + randomAlien.height,
           speed: this.config.aliens.bulletSpeed,
-          w: this.config.bullet.width,
-          h: this.config.bullet.height,
+          width: this.config.bullet.width,
+          height: this.config.bullet.height,
           color: this.config.aliens.bulletColor
         });
       }
     },
-    updateAliens: function () {
+    updateLevel: function() {
+      switch (this.state.aliens.shown.length) {
+        case 30: {
+          this.state.level = 1;
+          break
+        }
+        case 10: {
+          this.state.level = 2;
+          break
+        }
+        case 5: {
+          this.state.level = 3;
+          break
+        }
+      }
+    },
+    updateAliensAmount: function() {
+     let tankBullets = this.state.bullets.filter(bullet => bullet.speed < 0);
+      for (let i = 0; i < tankBullets.length; i++) {
+        for (let j = 0; j < this.state.aliens.shown.length; j++) {
+          if (this.isCollision(tankBullets[i], this.state.aliens.shown[j])) {
+            this.state.aliens.shown.splice(j, 1);
+            break;
+          }
+        }
+      } 
+      if (this.state.aliens.shown.length == 0) this.isWon = true;
+    },
+    updateAliensPosition: function() {
       this.state.frame++;
       let xMax = Math.max(...this.state.aliens.shown.map(alien => alien.x));
       let xMin = Math.min(...this.state.aliens.shown.map(alien => alien.x));
-      let alienMaxWidth = Math.max(...this.state.aliens.shown.map(alien => alien.w));
-      let rightBoundary = this.canvasCtx.canvas.width - this.config.screenPadding - alienMaxWidth;
+      let yMax = Math.max(...this.state.aliens.shown.map(alien => alien.y));
+      let alienMaxWidth = Math.max(
+        ...this.state.aliens.shown.map(alien => alien.width)
+      );
+      let rightBoundary =
+        this.canvasCtx.canvas.width -
+        this.config.screenPadding -
+        alienMaxWidth;
+      let bottomBoundary = this.canvasCtx.canvas.height / 4 * 3;
       let framesToSkip = this.config.aliens.framesToSkip[this.state.level];
       if (this.state.frame % framesToSkip == 0) {
         let moveDown;
-        if ((xMax > rightBoundary) || (xMin < this.config.screenPadding)) {
+        if (xMax > rightBoundary || xMin < this.config.screenPadding) {
           this.state.aliens.direction *= -1;
           moveDown = true;
         }
@@ -294,17 +362,25 @@ export default {
           let alien = this.state.aliens.shown[i];
           if (moveDown) {
             alien.y += this.state.aliens.ySpeed;
-          } 
-            alien.x += this.state.aliens.xSpeed * this.state.aliens.direction;
+          }
+          alien.x += this.state.aliens.xSpeed * this.state.aliens.direction;
         }
         moveDown = false;
       }
+      if (yMax > bottomBoundary) {
+        this.isGameOver = true;
+      }
     },
-    collide: function (objectA, objectB) {
-      return objectA.x < objectB.x + objectB.w && objectB.x < objectA.x + objectA.w && objectA.y < objectB.y + objectB.h && objectB.y < objectA.y + objectA.h;
+    isCollision: function(objectA, objectB) {
+      return (
+        objectA.x < objectB.x + objectB.width &&
+        objectB.x < objectA.x + objectA.width &&
+        objectA.y < objectB.y + objectB.height &&
+        objectB.y < objectA.y + objectA.height
+      );
     }
   },
-  mounted: function () {
+  mounted: function() {
     var canvas = document.getElementById("game-screen");
     var ctx = canvas.getContext("2d");
     ctx.canvas.width = 600;
