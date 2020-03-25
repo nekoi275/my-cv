@@ -11,7 +11,7 @@
       Game over
       <hr />play again
     </button>
-    <button v-show="isWon" @click="start()">
+    <button v-show="isWin" @click="start()">
       You win!
       <hr />play again
     </button>
@@ -27,7 +27,7 @@ export default {
     return {
       isButtonShown: true,
       isGameOver: false,
-      isWon: false,
+      isWin: false,
       spriteImage: null,
       canvasCtx: null,
       config: {
@@ -84,7 +84,7 @@ export default {
           ],
           rows: 5,
           columns: 10,
-          framesToSkip: [49, 25, 9, 5],
+          framesToSkip: [50, 25, 10, 5],
           types: [1, 0, 0, 2, 2],
           bulletColor: "#ffff00",
           shootProbability: 0.03,
@@ -105,7 +105,13 @@ export default {
           width: 2,
           height: 6
         },
-        screenPadding: 30
+        screenPadding: 30,
+        levelMap: {
+          50: 0,
+          30: 1,
+          10: 2,
+          5: 3
+        }
       },
       control: {
         right: false,
@@ -118,7 +124,7 @@ export default {
   methods: {
     start: function() {
       this.isGameOver = false;
-      this.isWon = false;
+      this.isWin = false;
       this.isButtonShown = false;
       this.init();
     },
@@ -242,8 +248,8 @@ export default {
       window.requestAnimationFrame(loop);
     },
     update: function() {
-      this.updateLevel();
       this.updateAliensAmount();
+      this.updateLevel();
       this.updateAliensPosition();
       this.updateTank();
       this.updateBullets();
@@ -310,38 +316,30 @@ export default {
       }
     },
     updateLevel: function() {
-      switch (this.state.aliens.shown.length) {
-        case 30: {
-          this.state.level = 1;
-          break
-        }
-        case 10: {
-          this.state.level = 2;
-          break
-        }
-        case 5: {
-          this.state.level = 3;
-          break
-        }
+      let level = this.config.levelMap[this.state.aliens.shown.length];
+      if (level) {
+        this.state.level = level;
       }
     },
-    updateAliensAmount: function() {
-     let tankBullets = this.state.bullets.filter(bullet => bullet.speed < 0);
-      for (let i = 0; i < tankBullets.length; i++) {
-        for (let j = 0; j < this.state.aliens.shown.length; j++) {
-          if (this.isCollision(tankBullets[i], this.state.aliens.shown[j])) {
-            this.state.aliens.shown.splice(j, 1);
-            break;
+    updateAliensAmount: function () {
+      for (let i = 0; i < this.state.bullets.length; i++) {
+        let bullet = this.state.bullets[i];
+        if (bullet.speed < 0) {
+          for (let j = 0; j < this.state.aliens.shown.length; j++) {
+            if (this.isCollision(bullet, this.state.aliens.shown[j])) {
+              this.state.aliens.shown.splice(j, 1);
+              this.state.bullets.splice(i, 1);              
+              break;
+            }
           }
         }
-      } 
-      if (this.state.aliens.shown.length == 0) this.isWon = true;
+      }
+      if (this.state.aliens.shown.length == 0) this.isWin = true;
     },
     updateAliensPosition: function() {
       this.state.frame++;
       let xMax = Math.max(...this.state.aliens.shown.map(alien => alien.x));
       let xMin = Math.min(...this.state.aliens.shown.map(alien => alien.x));
-      let yMax = Math.max(...this.state.aliens.shown.map(alien => alien.y));
       let alienMaxWidth = Math.max(
         ...this.state.aliens.shown.map(alien => alien.width)
       );
@@ -349,7 +347,6 @@ export default {
         this.canvasCtx.canvas.width -
         this.config.screenPadding -
         alienMaxWidth;
-      let bottomBoundary = this.canvasCtx.canvas.height / 4 * 3;
       let framesToSkip = this.config.aliens.framesToSkip[this.state.level];
       if (this.state.frame % framesToSkip == 0) {
         let moveDown;
@@ -357,7 +354,7 @@ export default {
           this.state.aliens.direction *= -1;
           moveDown = true;
         }
-        this.state.aliens.spriteFrame = this.state.frame % 2;
+        this.state.aliens.spriteFrame = (this.state.aliens.spriteFrame + 1) % 2;
         for (let i = 0; i < this.state.aliens.shown.length; i++) {
           let alien = this.state.aliens.shown[i];
           if (moveDown) {
@@ -367,6 +364,11 @@ export default {
         }
         moveDown = false;
       }
+      this.checkAliensClose();
+    },
+    checkAliensClose: function() {
+      let yMax = Math.max(...this.state.aliens.shown.map(alien => alien.y));
+      let bottomBoundary = this.canvasCtx.canvas.height * 0.75;
       if (yMax > bottomBoundary) {
         this.isGameOver = true;
       }
