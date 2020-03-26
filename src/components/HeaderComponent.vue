@@ -8,7 +8,6 @@
         <li>About me</li>
         <li>My CV</li>
         <li>Projects</li>
-        <li>Contact</li>
       </ul>
     </nav>
   </header>

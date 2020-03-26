@@ -396,6 +396,7 @@ export default {
 .game-container {
   position: relative;
   width: 600px;
+  height: 500px;
 }
 
 canvas {

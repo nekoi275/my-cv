@@ -12,6 +12,7 @@
       <li>
         <a href="https://www.instagram.com/valery_nekoi/" target="_blank">Instagram</a>
       </li>
+      <li><a href="mailto:nekoi275@gmail.com">E-mail me</a></li>
     </ul>
     <div class="mouse"></div>
   </section>
