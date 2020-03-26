@@ -5,9 +5,9 @@
     </div>
     <nav>
       <ul>
-        <li>About me</li>
-        <li>My CV</li>
-        <li>Projects</li>
+        <li @click="scrollTo('about')">About me</li>
+        <li @click="scrollTo('cv')">My CV</li>
+        <li @click="scrollTo('projects')">Projects</li>
       </ul>
     </nav>
   </header>
@@ -15,7 +15,12 @@
 
 <script>
 export default {
-  name: "HeaderComponent"
+  name: "HeaderComponent",
+  methods: {
+    scrollTo: function(id) {
+      document.getElementById(id).scrollIntoView({behavior: "smooth"});
+    }
+  } 
 };
 </script>
 

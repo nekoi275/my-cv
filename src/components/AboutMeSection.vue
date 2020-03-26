@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section id="about">
     <img class="bg-image" src="../assets/top-section-photo.jpg" />
     <ul>
       <li>Name: Drozdova Valeria</li>

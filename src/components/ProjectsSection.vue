@@ -1,6 +1,6 @@
 <template>
-  <section>
-    <space-invaders />
+  <section id="projects">
+    <space-invaders v-show="isDesktop()"/>
     <a href="/clothes/#clothes" target="_blank">
       <div class="projects-row">
         <div class="projects-col">
@@ -54,6 +54,11 @@ export default {
   name: "ProjectsSection",
   components: {
       SpaceInvaders
+  },
+  methods: {
+    isDesktop: function() {
+      return window.innerWidth >= 1000;
+    }
   }
 };
 </script>
@@ -65,7 +70,7 @@ section {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding: 150px 0px 0px 30px;
+  padding-top: 150px;
 }
 .projects-img {
   width: 500px;
@@ -81,6 +86,9 @@ section {
   padding: 10px;
   border: 2px solid var(--light-font-color);
 }
+.projects-row:hover {
+  border: 2px solid var(--second-main-color);
+}
 .projects-col-text {
   color: var(--main-bg-color);
 }
@@ -88,5 +96,17 @@ a {
   text-decoration: none;
   height: 100%;
   margin: 30px;
+}
+@media (max-width: 845px) {
+  section {
+    padding-top: 100px;
+  }
+  .projects-img {
+    width: 300px;
+    height: auto;
+  }
+  a {
+    margin: 30px 0px;
+  }
 }
 </style>

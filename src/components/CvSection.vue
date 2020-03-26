@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section id="cv">
     <cv-flip-card v-for="card in cards" :cardInfo="card" :key="card.id"></cv-flip-card>
     <a
       href="https://docs.google.com/document/d/10xQRhA28LRYPmtwvQRYwCc-DMeyxKDz4-Hbim1ybITA/edit?usp=sharing"
@@ -60,7 +60,7 @@ section {
   height: 100vh;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-around;
   padding-top: 120px;
   box-sizing: border-box;
   align-items: center;
@@ -78,5 +78,11 @@ a {
 }
 .flip-card {
   margin: 5px;
+}
+@media (max-width: 845px) {
+  section {
+    height: 100%;
+    padding-top: 100px;
+  }
 }
 </style>
