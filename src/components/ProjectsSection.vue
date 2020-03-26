@@ -16,7 +16,7 @@
     <a href="/osf" target="_blank">
       <div class="projects-row">
         <div class="projects-col">
-          <img class="projects-img" src="../assets/project_2.png">
+          <img class="projects-img" src="../assets/project_2.jpg">
         </div>
         <div class="projects-col-text">
           <p>OSF Academy front end development training project. Basic e-commerce website with an ability to load

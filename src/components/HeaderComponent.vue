@@ -1,6 +1,6 @@
 <template>
   <header>
-    <div class="logo">
+    <div @click="scrollTo('about')" class="logo">
       <h3 class="logo-text">This could be my logo</h3>
     </div>
     <nav>
