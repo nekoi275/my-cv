@@ -44,9 +44,7 @@ export default {
           heading: "Experience",
           data: [
             "04.2020 - present Working with API services integration within the Integromat platform.",
-            "07.2019 - 09.2019 Part-time junior front-end developer at AVE Startups",
-            "09.2018 - 05.2019 Part-time account management at Chudovo IT company",
-            "02.2016 - 09.2018 Sales/account manager at AB Soft"
+            "07.2019 - 09.2019 Part-time junior front-end developer at AVE Startups"
           ]
         }
       ]
