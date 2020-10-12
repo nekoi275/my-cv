@@ -5,7 +5,6 @@
       <li>Name: Drozdova Valeria</li>
       <li>Nickname: Nekoi</li>
       <li>Birthday: 04.01.1993</li>
-      <li>Age: 27</li>
       <li>
         <a href="https://github.com/Nekoi275" target="_blank">Github</a>
       </li>

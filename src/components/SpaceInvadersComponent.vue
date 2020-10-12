@@ -3,9 +3,9 @@
     <canvas id="game-screen"></canvas>
     <button v-show="isButtonShown" @click="start()">
       Play
-      <hr />move left: &larr;
-      <br />move right: &rarr;
-      <br />fire: space
+      <hr />move left: A;
+      <br />move right: D;
+      <br />fire: W
     </button>
     <button v-show="isGameOver" @click="start()">
       Game over
@@ -215,13 +215,13 @@ export default {
     },
     initControl: function() {
       document.addEventListener("keydown", event => {
-        this.control.left = event.keyCode == 37;
-        this.control.right = event.keyCode == 39;
+        this.control.left = event.keyCode == 65;
+        this.control.right = event.keyCode == 68;
       });
       document.addEventListener("keyup", () => {
         this.control.left = false;
         this.control.right = false;
-        this.control.fire = event.keyCode == 32;
+        this.control.fire = event.keyCode == 87;
       });
     },
     drawSprite: function(sprite, x, y) {
