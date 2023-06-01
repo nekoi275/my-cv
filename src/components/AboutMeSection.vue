@@ -9,7 +9,7 @@
         <a href="https://github.com/Nekoi275" target="_blank">Github</a>
       </li>
       <li>
-        <a href="https://www.instagram.com/valery_nekoi/" target="_blank">Instagram</a>
+        <a href="https://www.codewars.com/users/Nekoi275" target="_blank">Code Wars</a>
       </li>
       <li><a href="mailto:nekoi275@gmail.com">E-mail me</a></li>
     </ul>

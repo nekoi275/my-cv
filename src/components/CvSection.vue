@@ -2,7 +2,7 @@
   <section id="cv">
     <cv-flip-card v-for="card in cards" :cardInfo="card" :key="card.id"></cv-flip-card>
     <a
-      href="https://docs.google.com/document/d/10xQRhA28LRYPmtwvQRYwCc-DMeyxKDz4-Hbim1ybITA/edit?usp=sharing"
+      href="https://docs.google.com/document/d/1j-dj_t1xP2WtxRUuSa1_PIdmVqCPjOpgnDapOhp-24I/edit?usp=sharing"
       target="_blank"
     >
       <h1>Google doc CV</h1>
@@ -27,15 +27,15 @@ export default {
             "HTML",
             "CSS(LESS/Sass/SCSS)",
             "JavaScript",
-            "jQuery",
             "Vue.js",
+            "Node.js",
             "Express.js"
           ]
         },
         {
           heading: "Education",
           data: [
-            "2020 - OSF Academy",
+            "2020 - OSF Academy JavaScript course",
             "2019 - Odessa National Polytechnic University, IT-school training course “Front-end development. JavaScript”",
             "2010-2015 - National University “Odessa law academy”"
           ]
@@ -43,8 +43,8 @@ export default {
         {
           heading: "Experience",
           data: [
-            "04.2020 - present Working with API services integration within the Integromat platform.",
-            "07.2019 - 09.2019 Part-time junior front-end developer at AVE Startups"
+            "04.2020 - 12.2022 Front-end / JavaScript developer at Peoly",
+            "07.2019 - 09.2019 Part-time front-end developer at AVE Startups"
           ]
         }
       ]

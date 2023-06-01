@@ -1,7 +1,7 @@
 <template>
   <header>
     <div @click="scrollTo('about')" class="logo">
-      <h3 class="logo-text">This could be my logo</h3>
+      <h3 class="logo-text">Logo here</h3>
     </div>
     <nav>
       <ul>
@@ -54,7 +54,7 @@ li:hover {
   cursor: pointer;
 }
 .logo-text {
-  font-size: 25px;
+  font-size: 35px;
   color: #dae2e2;
   background-image: linear-gradient(92deg, #402e37, #414d08);
   background-clip: text;

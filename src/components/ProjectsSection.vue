@@ -1,7 +1,7 @@
 <template>
   <section id="projects">
     <space-invaders v-show="isDesktop()"/>
-    <a href="/clothes/#clothes" target="_blank">
+<!--     <a href="/clothes/#clothes" target="_blank">
       <div class="projects-row">
         <div class="projects-col">
           <img class="projects-img" src="../assets/project_1.png">
@@ -10,17 +10,6 @@
           <p>Personal wadrobe manager. Allows to add/edit/delete info about clothes (photo, year of purchase, color,
             price, etc.), has an ability to keep track of old clothes by moving them to other table. Filters and sorting
             based on given info.</p>
-        </div>
-      </div>
-    </a>
-    <a href="/osf" target="_blank">
-      <div class="projects-row">
-        <div class="projects-col">
-          <img class="projects-img" src="../assets/project_2.jpg">
-        </div>
-        <div class="projects-col-text">
-          <p>OSF Academy front end development training project. Basic e-commerce website with an ability to load
-            products from JSON and adding to cart and wishlist.</p>
         </div>
       </div>
     </a>
@@ -33,14 +22,14 @@
           <p>Star Wars Api front end page. Provides information about starships from swapi.com</p>
         </div>
       </div>
-    </a>
+    </a> -->
     <a href="http://ave-startups.com/" target="_blank">
       <div class="projects-row">
         <div class="projects-col">
           <img class="projects-img" src="../assets/project_4.png">
         </div>
         <div class="projects-col-text">
-          <p>AVE Startups commercial website.</p>
+          <p>AVE Startups website.</p>
         </div>
       </div>
     </a>
@@ -71,6 +60,7 @@ section {
   flex-wrap: wrap;
   justify-content: space-around;
   padding-top: 150px;
+  padding-bottom: 150px;
 }
 .projects-img {
   width: 500px;
