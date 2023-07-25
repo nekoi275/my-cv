@@ -11,16 +11,19 @@
         </div>
       </div>
     </a>
+    <sudoku></sudoku>
   </section>
 </template>
 
 <script>
 import SpaceInvaders from "./SpaceInvadersComponent";
+import Sudoku from "./SudokuSolverComponent";
 
 export default {
   name: "ProjectsSection",
   components: {
-      SpaceInvaders
+      SpaceInvaders,
+      Sudoku
   },
   methods: {
     isDesktop: function() {
@@ -39,6 +42,7 @@ section {
   justify-content: space-around;
   padding-top: 150px;
   padding-bottom: 150px;
+  gap: 30px;
 }
 .projects-img {
   width: 500px;
@@ -63,7 +67,6 @@ section {
 a {
   text-decoration: none;
   height: 100%;
-  margin: 30px;
 }
 @media (max-width: 845px) {
   section {
