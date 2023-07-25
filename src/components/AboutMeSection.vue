@@ -6,10 +6,10 @@
       <li>Nickname: Nekoi</li>
       <li>Birthday: 04.01.1993</li>
       <li>
-        <a href="https://github.com/Nekoi275" target="_blank">Github</a>
+        <a href="https://github.com/nekoi275" target="_blank">Github</a>
       </li>
       <li>
-        <a href="https://www.codewars.com/users/Nekoi275" target="_blank">Code Wars</a>
+        <a href="https://www.codewars.com/users/nekoi275" target="_blank">Code Wars</a>
       </li>
       <li><a href="mailto:nekoi275@gmail.com">E-mail me</a></li>
     </ul>

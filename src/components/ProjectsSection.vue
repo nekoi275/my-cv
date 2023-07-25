@@ -1,28 +1,6 @@
 <template>
   <section id="projects">
     <space-invaders v-show="isDesktop()"/>
-<!--     <a href="/clothes/#clothes" target="_blank">
-      <div class="projects-row">
-        <div class="projects-col">
-          <img class="projects-img" src="../assets/project_1.png">
-        </div>
-        <div class="projects-col-text">
-          <p>Personal wadrobe manager. Allows to add/edit/delete info about clothes (photo, year of purchase, color,
-            price, etc.), has an ability to keep track of old clothes by moving them to other table. Filters and sorting
-            based on given info.</p>
-        </div>
-      </div>
-    </a>
-    <a href="/swapi" target="_blank">
-      <div class="projects-row">
-        <div class="projects-col">
-          <img class="projects-img" src="../assets/project_3.png">
-        </div>
-        <div class="projects-col-text">
-          <p>Star Wars Api front end page. Provides information about starships from swapi.com</p>
-        </div>
-      </div>
-    </a> -->
     <a href="http://ave-startups.com/" target="_blank">
       <div class="projects-row">
         <div class="projects-col">
