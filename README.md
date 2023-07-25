@@ -1,5 +1,5 @@
 # My CV website
-[Visit](http://nekoi.pp.ua/)
+[Visit](https://nekoi275.github.io/)
 
 ## Project setup
 ```
