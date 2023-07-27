@@ -15,10 +15,10 @@
 
 <script>
 export default {
-  name: "HeaderComponent",
+  name: 'HeaderComponent',
   methods: {
     scrollTo: function(id) {
-      document.getElementById(id).scrollIntoView({behavior: "smooth"});
+      document.getElementById(id).scrollIntoView({behavior: 'smooth'});
     }
   } 
 };

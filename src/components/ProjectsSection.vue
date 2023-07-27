@@ -20,7 +20,7 @@ import SpaceInvaders from "./SpaceInvadersComponent";
 import Sudoku from "./SudokuSolverComponent";
 
 export default {
-  name: "ProjectsSection",
+  name: 'ProjectsSection',
   components: {
       SpaceInvaders,
       Sudoku

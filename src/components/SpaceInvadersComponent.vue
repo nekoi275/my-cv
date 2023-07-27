@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import spriteImage from "../assets/sprite.png";
+import spriteImage from '../assets/sprite.png';
 
 export default {
-  name: "SpaceInvaders",
+  name: 'SpaceInvaders',
   data: function() {
     return {
       isButtonShown: true,
@@ -86,7 +86,7 @@ export default {
           columns: 10,
           framesToSkip: [50, 25, 10, 5],
           types: [1, 0, 0, 2, 2],
-          bulletColor: "#ffff00",
+          bulletColor: '#ffff00',
           shootProbability: 0.03,
           bulletSpeed: 4
         },
@@ -97,7 +97,7 @@ export default {
             width: 22,
             height: 16
           },
-          bulletColor: "#ff0000",
+          bulletColor: '#ff0000',
           bulletSpeed: -8,
           speed: 4
         },
@@ -209,16 +209,16 @@ export default {
       }
     },
     initSpriteImage: function(afterInit) {
-      this.spriteImage = document.createElement("img");
+      this.spriteImage = document.createElement('img');
       this.spriteImage.src = spriteImage;
-      this.spriteImage.addEventListener("load", afterInit);
+      this.spriteImage.addEventListener('load', afterInit);
     },
     initControl: function() {
-      document.addEventListener("keydown", event => {
+      document.addEventListener('keydown', event => {
         this.control.left = event.keyCode == 65;
         this.control.right = event.keyCode == 68;
       });
-      document.addEventListener("keyup", () => {
+      document.addEventListener('keyup', () => {
         this.control.left = false;
         this.control.right = false;
         this.control.fire = event.keyCode == 87;
@@ -383,8 +383,8 @@ export default {
     }
   },
   mounted: function() {
-    var canvas = document.getElementById("game-screen");
-    var ctx = canvas.getContext("2d");
+    var canvas = document.getElementById('game-screen');
+    var ctx = canvas.getContext('2d');
     ctx.canvas.width = 600;
     ctx.canvas.height = 500;
     this.canvasCtx = ctx;

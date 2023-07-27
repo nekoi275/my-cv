@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import CvFlipCard from "./CvFlipCard";
+import CvFlipCard from './CvFlipCard';
 
 export default {
-  name: "CvSection",
+  name: 'CvSection',
   components: {
     CvFlipCard
   },
@@ -22,29 +22,29 @@ export default {
     return {
       cards: [
         {
-          heading: "Technologies",
+          heading: 'Technologies',
           data: [
-            "HTML",
-            "CSS(LESS/Sass/SCSS)",
-            "JavaScript",
-            "Vue.js",
-            "Node.js",
-            "Express.js"
+            'HTML',
+            'CSS(LESS/Sass/SCSS)',
+            'JavaScript',
+            'Vue.js',
+            'Node.js',
+            'Express.js'
           ]
         },
         {
-          heading: "Education",
+          heading: 'Education',
           data: [
-            "2020 - OSF Academy JavaScript course",
-            "2019 - Odessa National Polytechnic University, IT-school training course “Front-end development. JavaScript”",
-            "2010-2015 - National University “Odessa law academy”"
+            '2020 - OSF Academy JavaScript course',
+            '2019 - Odessa National Polytechnic University, IT-school training course “Front-end development. JavaScript”',
+            '2010-2015 - National University “Odessa law academy”'
           ]
         },
         {
-          heading: "Experience",
+          heading: 'Experience',
           data: [
-            "04.2020 - 12.2022 Front-end / JavaScript developer at Peoly",
-            "07.2019 - 09.2019 Part-time front-end developer at AVE Startups"
+            '04.2020 - 12.2022 Front-end / JavaScript developer at Peoly',
+            '07.2019 - 09.2019 Part-time front-end developer at AVE Startups'
           ]
         }
       ]

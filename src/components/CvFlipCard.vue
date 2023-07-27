@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "CvFlipCard",
+  name: 'CvFlipCard',
   props: {
     cardInfo: Object
   }
