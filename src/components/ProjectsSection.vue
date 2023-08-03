@@ -83,6 +83,10 @@ a {
     padding-top: 100px;
   }
 
+  .wrapper {
+    display: block;
+  }
+
   .projects-img {
     width: 300px;
     height: auto;

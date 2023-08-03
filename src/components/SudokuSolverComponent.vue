@@ -203,9 +203,13 @@
             </tr>
         </table>
         <button v-show="!isPuzzleSolved && isPuzzleValid" @click="validatePuzzle()">Solve</button>
+        <button v-show="!isPuzzleSolved && isPuzzleValid" @click="addExample()">Try example</button>
         <button v-show="isPuzzleSolved || !isPuzzleValid" @click="clearPuzzle()">Try again</button>
-        <p v-show="!isPuzzleValid">Fill some known numbers of sudoku. Valid numbers are 1-9.</p>
-        <p v-show="isPuzzleValid">Solves a <a href="https://en.wikipedia.org/wiki/Sudoku" target="_blank">Sudoku</a> by the provided "clues"</p>
+        <p v-show="!isPuzzleValid">Fill some known numbers of sudoku. Valid numbers are 1-9</p>
+        <p v-show="isPuzzleValid && !noSolution">Solves a <a href="https://en.wikipedia.org/wiki/Sudoku"
+                target="_blank">Sudoku</a> by the
+            provided "clues"</p>
+        <p v-show="noSolution">This sudoku has not solution</p>
     </div>
 </template>
   
@@ -214,7 +218,7 @@ export default {
     name: 'Sudoku',
     data: function () {
         return {
-            /* puzzle: [
+            puzzle: [
                 [null, null, null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null, null, null],
@@ -224,10 +228,10 @@ export default {
                 [null, null, null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null, null, null]
-            ], */
-            puzzle: [[null,null,"3",null,null,"1",null,null,null],["7",null,null,"8",null,null,"5","2",null],["8",null,"4",null,null,null,"6",null,"3"],[null,null,"7","3","2",null,null,null,null],["5",null,null,null,null,null,null,null,"2"],[null,null,null,null,"1","7","4","3",null],[null,"6","5",null,null,"4",null,null,null],[null,"2","9","1","8","5","3",null,"7"],[null,"7","8","6","3",null,"9","5","4"]],
+            ],
             isPuzzleValid: true,
-            isPuzzleSolved: false
+            isPuzzleSolved: false,
+            noSolution: false
         };
     },
     methods: {
@@ -245,8 +249,7 @@ export default {
             }
             if (this.isPuzzleValid) {
                 this.preparePuzzle();
-                this.solvePuzzle();
-                this.isPuzzleSolved = true;
+                this.returnSolved();
             }
         },
         clearPuzzle: function () {
@@ -260,9 +263,32 @@ export default {
                 [null, null, null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null, null, null],
                 [null, null, null, null, null, null, null, null, null]
-            ],
-                this.isPuzzleSolved = false;
-                this.isPuzzleValid = true;
+            ];
+            this.isPuzzleSolved = false;
+            this.isPuzzleValid = true;
+            this.noSolution = false;
+        },
+        returnSolved: function () {
+            if (this.solvePuzzle()) {
+                this.isPuzzleSolved = true;
+            } else {
+                this.puzzle = [
+                    [null, null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null, null],
+                    [null, null, null, null, null, null, null, null, null]
+                ];
+                this.isPuzzleSolved = true;
+                this.noSolution = true;
+            }
+        },
+        addExample: function () {
+            this.puzzle = [[null, null, "3", null, null, "1", null, null, null], ["7", null, null, "8", null, null, "5", "2", null], ["8", null, "4", null, null, null, "6", null, "3"], [null, null, "7", "3", "2", null, null, null, null], ["5", null, null, null, null, null, null, null, "2"], [null, null, null, null, "1", "7", "4", "3", null], [null, "6", "5", null, null, "4", null, null, null], [null, "2", "9", "1", "8", "5", "3", null, "7"], [null, "7", "8", "6", "3", null, "9", "5", "4"]]
         },
         preparePuzzle: function () {
             for (let i = 0; i < this.puzzle.length; i++) {
@@ -330,6 +356,9 @@ export default {
     background-color: var(--main-bg-color);
     width: 600px;
     height: 500px;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
 }
 
 p {
@@ -384,7 +413,7 @@ span {
 }
 
 button {
-    margin: auto;
+    margin-left: 10px;
     border: none;
     background-color: var(--light-font-color);
     color: var(--dark-font-color);
@@ -393,11 +422,21 @@ button {
     cursor: pointer;
     letter-spacing: 2px;
     text-align: center;
-    display: block;
+    display: inline-block;
 }
 
 button:hover {
     color: var(--light-font-color);
     background-color: var(--dark-font-color);
+}
+
+@media (max-width: 845px) {
+    .game-container {
+        width: 350px;
+        margin: auto;
+        height: 550px;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
 }
 </style>

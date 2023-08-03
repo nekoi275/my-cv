@@ -1,9 +1,9 @@
 <template>
   <div id="app">
-    <header-component/>
-    <about-me-section/>
-    <cv-section/>
-    <projects-section/>
+    <header-component />
+    <about-me-section />
+    <cv-section />
+    <projects-section />
   </div>
 </template>
 
@@ -32,16 +32,27 @@ export default {
   --light-font-color: #665a6a;
   --second-main-color: #414d08;
 }
+
 body {
   font-family: monospace;
   background-color: var(--main-bg-color);
   font-size: 16px;
 }
-body, div, ul, li, a, h3, h1, h2, h4, h5 {
+
+body,
+div,
+ul,
+li,
+a,
+h3,
+h1,
+h2,
+h4,
+h5 {
   margin: 0px;
   padding: 0px;
 }
+
 ul {
   list-style-type: none;
-}
-</style>
+}</style>
