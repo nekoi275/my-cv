@@ -85,5 +85,11 @@ section {
     width: 300px;
     height: auto;
   }
+
+  .project {
+    width: 360px;
+    margin: auto;
+    margin-bottom: 10px;
+  }
 }
 </style>
