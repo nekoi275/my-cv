@@ -55,4 +55,9 @@ h5 {
 
 ul {
   list-style-type: none;
-}</style>
+}
+
+a {
+  text-decoration: none;
+}
+</style>

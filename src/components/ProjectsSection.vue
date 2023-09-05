@@ -3,16 +3,18 @@
     <div class="wrapper">
       <space-invaders v-show="isDesktop()" />
       <sudoku></sudoku>
-      <a href="http://ave-startups.com/" target="_blank">
-        <div class="projects-row">
-          <div class="projects-col">
-            <img class="projects-img" src="../assets/project_4.png">
-            <div class="projects-col-text">
-              <p>AVE Startups website.</p>
-            </div>
-          </div>
-        </div>
-      </a>
+      <div class="project">
+        <a href="http://ave-startups.com/" target="_blank" class="project-block">
+          <img class="projects-img" src="../assets/project_4.png">
+          <p>AVE Startups website.</p>
+        </a>
+      </div>
+      <div class="project">
+        <a href="https://nekoi275.github.io/aframe-test/" target="_blank" class="project-block">
+          <img class="projects-img" src="../assets/project_1.png">
+          <p>Web VR website based on <a href="https://aframe.io/" target="_blank">A-Frame</a> framework.</p>
+        </a>
+      </div>
     </div>
   </section>
 </template>
@@ -49,33 +51,25 @@ section {
   justify-content: center;
 }
 
-.projects-img {
-  width: 500px;
-  height: auto;
+.project {
+  width: 530px;
 }
 
-.projects-row {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  box-sizing: border-box;
-  max-width: 550px;
+.project-block {
   padding: 10px;
   border: 2px solid var(--light-font-color);
+  color: var(--main-bg-color);
+  display: block;
+  text-align: center;
 }
 
-.projects-row:hover {
+.project-block:hover {
   border: 2px solid var(--second-main-color);
 }
 
-.projects-col-text {
-  color: var(--main-bg-color);
-}
-
-a {
-  text-decoration: none;
-  height: 100%;
+.projects-img {
+  width: 500px;
+  height: auto;
 }
 
 @media (max-width: 845px) {
@@ -90,10 +84,6 @@ a {
   .projects-img {
     width: 300px;
     height: auto;
-  }
-
-  a {
-    margin: 30px 0px;
   }
 }
 </style>

@@ -208,7 +208,7 @@
         <p v-show="!isPuzzleValid">Fill some known numbers of sudoku. Valid numbers are 1-9</p>
         <p v-show="isPuzzleValid && !noSolution">Solves a <a href="https://en.wikipedia.org/wiki/Sudoku"
                 target="_blank">Sudoku</a> by the
-            provided "clues"</p>
+            provided "clues".</p>
         <p v-show="noSolution">This sudoku has not solution</p>
     </div>
 </template>
