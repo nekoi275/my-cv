@@ -15,6 +15,12 @@
           <p>Web VR website based on <a href="https://aframe.io/" target="_blank">A-Frame</a> framework.</p>
         </a>
       </div>
+      <div class="project">
+        <a href="https://nekoi275.github.io/nice-shop-layout/#" target="_blank" class="project-block">
+          <img class="projects-img" src="../assets/project_2.png">
+          <p>Ecommerce website layout sample.</p>
+        </a>
+      </div>
     </div>
   </section>
 </template>
@@ -41,13 +47,13 @@ export default {
 section {
   background-color: var(--dark-font-color);
   padding-top: 130px;
+  padding-bottom: 50px;
 }
 
 .wrapper {
   display: grid;
   grid-gap: 30px;
   grid-template-columns: 600px 600px;
-  grid-auto-rows: 520px;
   justify-content: center;
 }
 
