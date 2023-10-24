@@ -6,13 +6,13 @@
       <div class="project">
         <a href="https://nekoi275.github.io/aframe-test/" target="_blank" class="project-block">
           <img class="projects-img" src="../assets/project_1.webp" alt="project screenshot">
-          <p>Web VR website based on <a href="https://aframe.io/" target="_blank">A-Frame</a> framework.</p>
+          Web VR website.
         </a>
       </div>
       <div class="project">
         <a href="https://nekoi275.github.io/nice-shop-layout/#" target="_blank" class="project-block">
           <img class="projects-img" src="../assets/project_2.webp" alt="project screenshot">
-          <p>Ecommerce website layout sample.</p>
+          Ecommerce website layout sample.
         </a>
       </div>
     </div>
