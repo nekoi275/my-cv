@@ -6,13 +6,19 @@
       <div class="project">
         <a href="https://nekoi275.github.io/aframe-test/" target="_blank" class="project-block">
           <img class="projects-img" src="../assets/project_1.webp" alt="project screenshot">
-          Web VR website.
+          Web VR website based on Aframe framework.
         </a>
       </div>
       <div class="project">
         <a href="https://nekoi275.github.io/nice-shop-layout/#" target="_blank" class="project-block">
           <img class="projects-img" src="../assets/project_2.webp" alt="project screenshot">
           Ecommerce website layout sample.
+        </a>
+      </div>
+      <div class="project">
+        <a href="https://wardrobe.pages.dev/clothes" target="_blank" class="project-block">
+          <img class="projects-img" src="../assets/project_3.webp" alt="project screenshot">
+          Personal wardrobe manager app on Vue 3 (Composition API). Test user: test / test12345.
         </a>
       </div>
     </div>
