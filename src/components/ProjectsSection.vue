@@ -21,6 +21,14 @@
           Personal wardrobe manager app on Vue 3 (Composition API). Test user: test / test12345.
         </a>
       </div>
+      <div class="project">
+        <a href="https://telegram-schedule.pages.dev/login" target="_blank" class="project-block">
+          <img class="projects-img" src="../assets/project_4.webp" alt="project screenshot">
+          <img class="projects-img" src="../assets/project_4.2.webp" alt="project screenshot">
+          Telegram posts scheduler for AI generated images public group. Allows to set / edit / preview posts before posting into Telegram.
+          Vue 3 (Composition API).
+        </a>
+      </div>
     </div>
   </section>
 </template>
